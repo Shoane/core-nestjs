@@ -1,6 +1,6 @@
 const fg = require('fast-glob');
 const ConnectionString = require('connection-string');
-const load = require('dotenv').load;
+const config = require('dotenv').config;
 const fs = require('fs');
 const path = require('path');
 const runnedInMigration = process.env.MIGRATIONS === 'true';
@@ -13,13 +13,13 @@ const packageJson = JSON.parse(fs.readFileSync('package.json'));
 const vendors = packageJson.externalLibs || [];
 try {
     fs.accessSync(`${envName}.env`);
-    load({ path: `${envName}.env` });
+    config({ path: `${envName}.env` });
     console.log(`env file: ${envName}.env`);
 } catch (error) {
     console.log(`error on get env file: ${envName}.env`);
     try {
         fs.accessSync(`.env`);
-        load();
+        config();
         console.log(`env file: .env`);
     } catch (error) {
         console.log(`error on get env file: .env`);
